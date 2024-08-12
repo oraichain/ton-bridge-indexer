@@ -1,0 +1,93 @@
+# To improve query performance, we strongly suggest adding indexes to any field that you plan to filter or sort by
+# Add the `@index` or `@index(unique: true)` annotation after any non-key field
+# https://academy.subquery.network/build/graphql.html#indexing-by-non-primary-key-field
+type Account @entity {
+  id: ID!
+  type: Network!
+  address: String!
+  from: [Bridge] @derivedFrom(field: "srcSender")
+  to: [Bridge] @derivedFrom(field: "destAddress")
+}
+
+type Transaction @entity {
+  # txn hash
+  id: ID!
+  # Blocknumber
+  blockNumber: BigInt!
+  # timestamp txn was confirmed
+  timestamp: BigInt!
+  # gas used during txn execution
+  gasUsed: BigInt!
+  # all bridge transaction
+  bridge: [Bridge] @derivedFrom(field: "transaction")
+}
+
+type Token @entity {
+  id: ID!
+  name: String
+  symbol: String
+  decimals: Int
+  tonDenom: String! @index
+  oraichainDenom: String! @index
+}
+
+type Pool @entity {
+  id: ID!
+  mechanism: Mechanism!
+  token: Token! @index
+  tonReserve: BigInt!
+  oraichainReserve: BigInt!
+  volume: BigInt!
+  # relayer fee
+  relayerFee: BigInt!
+  # token fee
+  tokenFee: BigInt!
+  bridge: [Bridge] @derivedFrom(field: "pool")
+}
+
+type Bridge @entity @compositeIndexes(fields: [["seq", "direction"]]) {
+  id: ID!
+  # packet sequence
+  seq: BigInt! @index
+  # Pool address
+  pool: Pool!
+  # Direction of bridge
+  direction: Direction!
+  # Sender address
+  srcSender: Account!
+  # Destination address
+  destAddress: Account!
+  # Amount of token
+  amount: BigInt!
+  # Status of bridge
+  status: BridgeStatus!
+  # Transaction
+  transaction: Transaction!
+  # relayer fee
+  relayerFee: BigInt!
+  # token fee
+  tokenFee: BigInt!
+}
+
+enum Direction {
+  TON_TO_ORAI
+  ORAI_TO_TON
+}
+
+enum Network {
+  TON
+  ORAI
+  BOTH
+}
+
+enum BridgeStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  TIMEOUT
+}
+
+enum Mechanism {
+  MINT_BURN
+  LOCK_UNLOCK
+}

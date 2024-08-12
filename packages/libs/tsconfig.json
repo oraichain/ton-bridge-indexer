@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "lib": ["ESNEXT", "dom", "ESNext.Array", "ESNext.BigInt"],
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": ".",
+    "target": "es2020",
+    "strict": true
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    "../../node_modules/@subql/types-cosmos/dist/global.d.ts"
+   ]
+}

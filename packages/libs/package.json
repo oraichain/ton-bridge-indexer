@@ -1,0 +1,30 @@
+{
+  "name": "@oraichain/libs-indexer",
+  "version": "0.0.1",
+  "description": "This project can be use as a starting point for developing your Oraichain based SubQuery project",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@subql/cli": "latest",
+    "@subql/node-cosmos": "latest",
+    "@subql/testing": "latest",
+    "@types/ejs": "^3.1.5",
+    "@types/node-fetch": "^2.6.11",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@cosmjs/stargate": "^0.32.3",
+    "@subql/types-cosmos": "latest",
+    "@types/node": "^20.14.12",
+    "node-fetch": "^2.7.0",
+    "pino": "^7.8.0",
+    "ts-proto": "^1.112.1",
+    "tslib": "=2.3.1"
+  }
+}
